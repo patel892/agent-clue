@@ -92,24 +92,17 @@
     </div>
   </section>
 
-  <!-- ============ STAGE 2 — CODE BREAKER ============ -->
+  <!-- ============ STAGE 2 — WORD DECODER ============ -->
   <section id="stage-cipher" class="stage" data-stage="2">
     <div class="stage-header">
-      <h2 class="stage-title">MISSION 2: CODE BREAKER</h2>
-      <p class="stage-subtitle">Decrypt the intercepted transmission using pattern analysis.</p>
+      <h2 class="stage-title">MISSION 2: WORD DECODER</h2>
+      <p class="stage-subtitle">The intercepted message is scrambled. Unscramble each word to decode it.</p>
     </div>
-    <div class="cipher-intel">
-      <span class="intel-badge">INTEL INTERCEPT</span>
-      <span class="intel-hint" id="cipher-free-hint"></span>
-    </div>
-    <div class="cipher-message" id="cipher-message" aria-label="Encoded message"></div>
-    <div class="cipher-key-grid" id="cipher-key-grid" aria-label="Cipher key assignments"></div>
-    <div class="cipher-alphabet" id="cipher-alphabet" role="group" aria-label="Letter selection"></div>
+    <p class="cipher-instruction">Tap two letters in a word to swap them. Unscramble all 5 words.</p>
+    <div class="unscramble-words" id="unscramble-words"></div>
     <div class="cipher-tools">
-      <button class="btn btn-secondary" id="cipher-freq-btn">FREQUENCY ANALYSIS</button>
-      <button class="btn btn-secondary" id="cipher-hint-btn">HINT <span id="cipher-hint-count">(2)</span></button>
+      <button class="btn btn-secondary" id="cipher-hint-btn">HINT <span id="cipher-hint-count">(3)</span></button>
     </div>
-    <div class="frequency-panel" id="frequency-panel"></div>
     <div class="stage-complete-overlay" id="cipher-complete">
       <div class="complete-content">
         <p class="complete-title">DECRYPTION COMPLETE</p>
@@ -121,17 +114,19 @@
   </section>
 
   <!-- ============ STAGE 3 — LASER GRID ============ -->
-  <section id="stage-laser" class="stage" data-stage="3">
-    <div class="stage-header">
-      <h2 class="stage-title">MISSION 3: LASER GRID</h2>
-      <p class="stage-subtitle">Navigate the security grid. Avoid active lasers. Reach the exit.</p>
-    </div>
-    <div class="laser-stats">
-      <span class="stat-label">STRIKES: <span id="laser-strikes">0</span></span>
-      <button class="btn btn-secondary btn-small" id="laser-scan-btn">SCAN <span id="laser-scan-count">(2)</span></button>
-    </div>
-    <div class="laser-grid-wrapper">
-      <div class="laser-grid" id="laser-grid" role="grid" aria-label="Laser navigation grid"></div>
+  <section id="stage-laser" class="stage stage-laser-layout" data-stage="3">
+    <div class="laser-top-area">
+      <div class="stage-header">
+        <h2 class="stage-title">MISSION 3: LASER GRID</h2>
+        <p class="stage-subtitle">Navigate to 🔓. Avoid active lasers.</p>
+      </div>
+      <div class="laser-stats">
+        <span class="stat-label">STRIKES: <span id="laser-strikes">0</span></span>
+        <button class="btn btn-secondary btn-small" id="laser-scan-btn">SCAN <span id="laser-scan-count">(2)</span></button>
+      </div>
+      <div class="laser-grid-wrapper">
+        <div class="laser-grid" id="laser-grid" role="grid" aria-label="Laser navigation grid"></div>
+      </div>
     </div>
     <div class="detected-flash" id="detected-flash" aria-live="assertive">DETECTED!</div>
     <div class="dpad" id="dpad" aria-label="Movement controls">
@@ -157,7 +152,7 @@
   <section id="stage-vault" class="stage" data-stage="4">
     <div class="stage-header">
       <h2 class="stage-title">MISSION 4: THE VAULT</h2>
-      <p class="stage-subtitle">Enter the combination to crack the vault. The clues are in your mission log.</p>
+      <p class="stage-subtitle">Enter the 3-digit code to crack the vault.</p>
     </div>
     <div class="vault-container">
       <div class="vault-door" id="vault-door">
@@ -217,7 +212,7 @@
     <select id="debug-stage-select">
       <option value="0">Stage 0: Briefing</option>
       <option value="1">Stage 1: Memory</option>
-      <option value="2">Stage 2: Cipher</option>
+      <option value="2">Stage 2: Decoder</option>
       <option value="3">Stage 3: Laser</option>
       <option value="4">Stage 4: Vault</option>
       <option value="5">Stage 5: Reveal</option>

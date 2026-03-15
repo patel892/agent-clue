@@ -1,9 +1,9 @@
 /* ================================================================
-   Stage 4 — The Vault (Combination Lock)
+   Stage 4 — The Vault (3-Digit Combination Lock)
    ================================================================ */
 
 const VaultGame = (() => {
-  let dials = [0, 0, 0, 0];
+  let dials = [0, 0, 0];
   let attempts = 0;
   let completed = false;
 
@@ -13,24 +13,19 @@ const VaultGame = (() => {
 
   const CLUES = [
     {
-      label: 'Protocol Alpha',
-      text: 'The Matrix held 16 classified files, but every file had a twin hiding in the deck. The number of unique identities — not the total files — is your first digit.',
-      clarification: '(16 cards total. Each item appeared twice. 16 ÷ 2 = ?)'
+      label: 'Clue 1',
+      text: 'How many pairs did you match in the Memory Matrix?',
+      clarification: '(You matched 8 pairs of cards.)'
     },
     {
-      label: 'Protocol Bravo',
-      text: 'Five words emerged from the cipher. Among them, the most common word length appeared more than once. How many words shared that most common length? That count is your second digit.',
-      clarification: '(Word lengths in the decoded message: 3, 4, 2, 3, 3. Which length is most common? How many words have it?)'
+      label: 'Clue 2',
+      text: 'How many words were in the secret message you decoded?',
+      clarification: '(Count the words: NEW BABY ON THE WAY = 5)'
     },
     {
-      label: 'Protocol Charlie',
-      text: 'The cipher masked its message behind unique symbols — one per letter. But your intel briefing cracked one before you even started. The number of symbols you decoded yourself matches a digit you\'ve already found.',
-      clarification: '(9 unique symbols total. 1 was given free. 9 − 1 = ?)'
-    },
-    {
-      label: 'Protocol Delta',
-      text: 'The laser field was a perfect square. But here\'s the catch — was the grid you navigated the same dimensions as Alpha? Or did the field adapt to your screen? Trust your own eyes, Agent.',
-      clarification: '(How many rows did YOUR laser grid have? Check the Mission Log if you aren\'t sure.)'
+      label: 'Clue 3',
+      text: 'How many rows tall was the laser grid you navigated?',
+      clarification: '(Check the Mission Log for your grid size.)'
     }
   ];
 
@@ -49,7 +44,7 @@ const VaultGame = (() => {
     continueBtn     = document.getElementById('vault-continue-btn');
     dossier         = document.getElementById('vault-dossier');
 
-    dials = [0, 0, 0, 0];
+    dials = [0, 0, 0];
     attempts = 0;
     completed = false;
 
@@ -101,7 +96,6 @@ const VaultGame = (() => {
       upBtn.addEventListener('click', () => adjustDial(index, 1));
       downBtn.addEventListener('click', () => adjustDial(index, -1));
 
-      // Touch swipe support
       let touchStartY = 0;
       display.addEventListener('touchstart', (e) => {
         touchStartY = e.touches[0].clientY;
@@ -133,7 +127,7 @@ const VaultGame = (() => {
     CLUES.forEach(clue => {
       const el = document.createElement('p');
       el.className = 'dossier-clue';
-      el.innerHTML = `<span class="clue-label">${clue.label}</span> — ${clue.text} <span class="clue-clarification">${clue.clarification}</span>`;
+      el.innerHTML = `<span class="clue-label">${clue.label}:</span> ${clue.text} <span class="clue-clarification">${clue.clarification}</span>`;
       cluesEl.appendChild(el);
     });
   }
@@ -141,9 +135,8 @@ const VaultGame = (() => {
   function getCorrectCode() {
     return [
       8,
-      3,
-      8,
-      GameState.stageData.laser.gridSize || 8
+      5,
+      GameState.stageData.laser.gridSize || 6
     ];
   }
 
@@ -164,8 +157,7 @@ const VaultGame = (() => {
       vaultDoor.classList.add('wrong-attempt');
       setTimeout(() => vaultDoor.classList.remove('wrong-attempt'), 500);
 
-      // After 3 wrong attempts, show clarifications
-      if (attempts >= 3) {
+      if (attempts >= 2) {
         dossier.classList.add('show-hints');
       }
     }
@@ -179,7 +171,6 @@ const VaultGame = (() => {
       completeStage('vault');
     }
 
-    // Vault door open animation
     vaultDoor.classList.add('open');
 
     fragmentEl.textContent = decodeFragment(ENCODED_FRAGMENTS.vault);
@@ -194,18 +185,16 @@ const VaultGame = (() => {
 
     const entries = [
       { label: 'Mission 1 — Memory Matrix', items: [
-        `Evidence pairs matched: <span class="log-value">${GameState.stageData.memory.completed ? 8 : '???'}</span>`,
-        `Attempts: <span class="log-value">${GameState.stageData.memory.moves}</span>`
+        `Evidence pairs matched: <span class="log-value">8</span>`,
+        `Total cards: <span class="log-value">16</span>`
       ]},
-      { label: 'Mission 2 — Code Breaker', items: [
-        `Decoded phrase: <span class="log-value">${GameState.stageData.cipher.completed ? 'NEW BABY ON THE WAY' : '???'}</span>`,
-        `Unique symbols: <span class="log-value">9</span>`,
-        `Free hints given: <span class="log-value">1</span>`,
-        `Hints used: <span class="log-value">${GameState.stageData.cipher.hintsUsed}</span>`
+      { label: 'Mission 2 — Word Decoder', items: [
+        `Decoded message: <span class="log-value">${GameState.stageData.cipher.completed ? 'NEW BABY ON THE WAY' : '???'}</span>`,
+        `Words in message: <span class="log-value">${GameState.stageData.cipher.completed ? '5' : '???'}</span>`
       ]},
       { label: 'Mission 3 — Laser Grid', items: [
         `Grid size: <span class="log-value">${GameState.stageData.laser.gridSize}×${GameState.stageData.laser.gridSize}</span>`,
-        `Strikes: <span class="log-value">${GameState.stageData.laser.attempts}</span>`
+        `Rows: <span class="log-value">${GameState.stageData.laser.gridSize}</span>`
       ]}
     ];
 

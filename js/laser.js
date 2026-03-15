@@ -4,7 +4,7 @@
 
 const LaserGame = (() => {
   let gridSize = 6;
-  let grid = [];           // 2D array: each cell = { laser: null | { dir, cycle }, active: bool }
+  let grid = [];
   let playerPos = { row: 0, col: 0 };
   let goalPos = {};
   let strikes = 0;
@@ -16,34 +16,25 @@ const LaserGame = (() => {
   let gridEl, strikesEl, scanBtn, scanCountEl, detectedFlash;
   let completeOverlay, fragmentEl, continueBtn;
 
-  // Laser layouts — pre-designed for solvability
   const LASER_CONFIGS = {
     6: [
-      { row: 0, col: 2, dir: 'h', cycle: 1 },
+      { row: 0, col: 3, dir: 'h', cycle: 1 },
       { row: 1, col: 1, dir: 'v', cycle: 2 },
-      { row: 1, col: 4, dir: 'h', cycle: 1 },
-      { row: 2, col: 3, dir: 'v', cycle: 2 },
-      { row: 3, col: 0, dir: 'h', cycle: 1 },
-      { row: 3, col: 2, dir: 'v', cycle: 1 },
-      { row: 4, col: 4, dir: 'h', cycle: 2 },
-      { row: 4, col: 1, dir: 'v', cycle: 1 },
-      { row: 5, col: 3, dir: 'h', cycle: 2 },
+      { row: 2, col: 4, dir: 'h', cycle: 1 },
+      { row: 3, col: 2, dir: 'v', cycle: 2 },
+      { row: 4, col: 1, dir: 'h', cycle: 1 },
+      { row: 4, col: 4, dir: 'v', cycle: 2 },
     ],
     8: [
       { row: 0, col: 3, dir: 'h', cycle: 1 },
-      { row: 1, col: 1, dir: 'v', cycle: 2 },
-      { row: 1, col: 5, dir: 'h', cycle: 1 },
-      { row: 2, col: 3, dir: 'v', cycle: 2 },
-      { row: 2, col: 6, dir: 'h', cycle: 1 },
-      { row: 3, col: 2, dir: 'h', cycle: 2 },
-      { row: 3, col: 4, dir: 'v', cycle: 1 },
+      { row: 1, col: 5, dir: 'v', cycle: 2 },
+      { row: 2, col: 2, dir: 'h', cycle: 1 },
+      { row: 3, col: 4, dir: 'v', cycle: 2 },
       { row: 4, col: 1, dir: 'h', cycle: 1 },
-      { row: 4, col: 6, dir: 'v', cycle: 2 },
-      { row: 5, col: 3, dir: 'h', cycle: 2 },
-      { row: 5, col: 5, dir: 'v', cycle: 1 },
-      { row: 6, col: 2, dir: 'v', cycle: 2 },
-      { row: 6, col: 4, dir: 'h', cycle: 1 },
-      { row: 7, col: 6, dir: 'h', cycle: 2 },
+      { row: 5, col: 6, dir: 'v', cycle: 2 },
+      { row: 5, col: 3, dir: 'h', cycle: 1 },
+      { row: 6, col: 5, dir: 'v', cycle: 2 },
+      { row: 7, col: 2, dir: 'h', cycle: 1 },
     ]
   };
 
@@ -70,7 +61,6 @@ const LaserGame = (() => {
     completeOverlay.classList.remove('active');
     detectedFlash.classList.remove('active');
 
-    // Set CSS grid columns
     gridEl.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
 
     playerPos = { row: 0, col: 0 };
@@ -80,12 +70,10 @@ const LaserGame = (() => {
     renderGrid();
     startLasers();
 
-    // Controls
     scanBtn.addEventListener('click', onScan);
     continueBtn.addEventListener('click', onContinue);
     document.addEventListener('keydown', onKeyDown);
 
-    // D-pad
     document.getElementById('dpad-up').addEventListener('click', () => move(-1, 0));
     document.getElementById('dpad-down').addEventListener('click', () => move(1, 0));
     document.getElementById('dpad-left').addEventListener('click', () => move(0, -1));
@@ -100,8 +88,7 @@ const LaserGame = (() => {
     scanBtn.removeEventListener('click', onScan);
     continueBtn.removeEventListener('click', onContinue);
 
-    const btns = ['dpad-up', 'dpad-down', 'dpad-left', 'dpad-right'];
-    btns.forEach(id => {
+    ['dpad-up', 'dpad-down', 'dpad-left', 'dpad-right'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.replaceWith(el.cloneNode(true));
     });
@@ -121,7 +108,6 @@ const LaserGame = (() => {
     const config = LASER_CONFIGS[gridSize] || LASER_CONFIGS[6];
     config.forEach(l => {
       if (l.row < gridSize && l.col < gridSize) {
-        // Don't place lasers on start or goal
         if ((l.row === 0 && l.col === 0) || (l.row === goalPos.row && l.col === goalPos.col)) return;
         grid[l.row][l.col] = {
           laser: { dir: l.dir, cycle: l.cycle },
@@ -140,13 +126,11 @@ const LaserGame = (() => {
         cell.dataset.row = r;
         cell.dataset.col = c;
 
-        // Player
         if (r === playerPos.row && c === playerPos.col) {
           cell.classList.add('player');
           cell.textContent = '🕵️';
         }
 
-        // Goal
         if (r === goalPos.row && c === goalPos.col) {
           cell.classList.add('goal');
           if (!(r === playerPos.row && c === playerPos.col)) {
@@ -154,7 +138,6 @@ const LaserGame = (() => {
           }
         }
 
-        // Laser beam
         const cellData = grid[r][c];
         if (cellData.laser) {
           const beam = document.createElement('div');
@@ -163,7 +146,6 @@ const LaserGame = (() => {
           cell.appendChild(beam);
         }
 
-        // Fog of war
         if (!scanning) {
           const dist = Math.abs(r - playerPos.row) + Math.abs(c - playerPos.col);
           if (dist > 2) {
@@ -177,15 +159,15 @@ const LaserGame = (() => {
   }
 
   function startLasers() {
-    // Cycle 1: toggle every 1500ms
     const id1 = setInterval(() => {
       toggleLaserCycle(1);
+      checkStandingOnLaser();
       renderGrid();
     }, 1500);
 
-    // Cycle 2: toggle every 2500ms
     const id2 = setInterval(() => {
       toggleLaserCycle(2);
+      checkStandingOnLaser();
       renderGrid();
     }, 2500);
 
@@ -199,6 +181,14 @@ const LaserGame = (() => {
           grid[r][c].active = !grid[r][c].active;
         }
       }
+    }
+  }
+
+  function checkStandingOnLaser() {
+    if (completed) return;
+    const cell = grid[playerPos.row][playerPos.col];
+    if (cell.active) {
+      onDetected();
     }
   }
 
@@ -222,7 +212,6 @@ const LaserGame = (() => {
     playerPos.row = newRow;
     playerPos.col = newCol;
 
-    // Check laser collision
     const cell = grid[newRow][newCol];
     if (cell.active) {
       onDetected();
@@ -231,7 +220,6 @@ const LaserGame = (() => {
 
     renderGrid();
 
-    // Check goal
     if (newRow === goalPos.row && newCol === goalPos.col) {
       onComplete();
     }

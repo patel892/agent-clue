@@ -643,182 +643,77 @@ h1, h2, h3 {
   to { opacity: 1; transform: translate(-50%, -50%) scale(1.02); }
 }
 
-/* --- Cipher Stage --- */
-.cipher-intel {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.intel-badge {
+/* --- Word Decoder Stage --- */
+.cipher-instruction {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--bg-dark);
-  background: var(--amber);
-  padding: 0.25rem 0.6rem;
-  border-radius: 3px;
-  letter-spacing: 0.1em;
-  font-weight: 700;
+  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  color: var(--white-dim);
+  text-align: center;
+  margin-bottom: 1.25rem;
+  max-width: 400px;
 }
 
-.intel-hint {
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
-  color: var(--green);
-  font-weight: 700;
-}
-
-.cipher-message {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  max-width: 600px;
-  width: 100%;
-}
-
-.cipher-word {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.cipher-slot {
-  width: clamp(2rem, 8vw, 3rem);
-  height: clamp(2.5rem, 10vw, 3.5rem);
+.unscramble-words {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-card);
-  border: 2px solid var(--border);
-  border-radius: 4px;
-  font-size: clamp(0.9rem, 3vw, 1.2rem);
-  transition: border-color 300ms, background 300ms;
-}
-
-.cipher-slot .symbol {
-  font-size: clamp(0.7rem, 2.5vw, 1rem);
-  color: var(--amber);
-}
-
-.cipher-slot .decoded-letter {
-  font-family: var(--font-mono);
-  font-size: clamp(0.8rem, 2.5vw, 1rem);
-  font-weight: 700;
-  color: var(--green);
-  min-height: 1.2em;
-}
-
-.cipher-slot.correct {
-  border-color: var(--green);
-  background: rgba(0, 255, 136, 0.08);
-}
-
-.cipher-slot.wrong {
-  animation: shake-slot 400ms ease;
-}
-
-@keyframes shake-slot {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
-}
-
-.cipher-key-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-  max-width: 500px;
+  gap: 1rem;
   width: 100%;
+  max-width: 400px;
+  margin-bottom: 1.25rem;
 }
 
-.cipher-key-tile {
+.unscramble-word {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.5rem 0.75rem;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.unscramble-word.solved .unscramble-tile {
+  border-color: var(--green);
+  background: rgba(0, 255, 136, 0.1);
+  color: var(--green);
+}
+
+.word-check {
+  font-size: 1.25rem;
+  color: var(--green);
+  margin-right: 0.25rem;
+  font-weight: 700;
+}
+
+.unscramble-tile {
+  width: clamp(2.8rem, 12vw, 3.5rem);
+  height: clamp(2.8rem, 12vw, 3.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--bg-card);
   border: 2px solid var(--border);
-  border-radius: 4px;
+  border-radius: 6px;
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  font-weight: 700;
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  min-height: 48px;
-  transition: border-color 200ms, background 200ms;
+  transition: border-color 200ms, background 200ms, transform 150ms;
 }
 
-.cipher-key-tile.selected {
+.unscramble-tile:active {
+  transform: scale(0.93);
+}
+
+.unscramble-tile.selected {
   border-color: var(--amber);
-  background: rgba(245, 166, 35, 0.15);
-}
-
-.cipher-key-tile.solved {
-  border-color: var(--green);
-  background: rgba(0, 255, 136, 0.08);
-  cursor: default;
-}
-
-.cipher-key-tile .key-symbol {
-  font-size: 1.1rem;
-  color: var(--amber);
-}
-
-.cipher-key-tile .key-arrow {
-  color: var(--white);
-  font-size: 0.8rem;
-}
-
-.cipher-key-tile .key-letter {
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--green);
-  min-width: 1em;
-  text-align: center;
-}
-
-.cipher-alphabet {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.3rem;
-  max-width: 500px;
-  width: 100%;
-  margin-bottom: 0.75rem;
-}
-
-.cipher-letter-btn {
-  width: clamp(2rem, 7vw, 2.5rem);
-  height: clamp(2rem, 7vw, 2.5rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  color: var(--white);
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  transition: background 200ms, opacity 200ms;
-}
-
-.cipher-letter-btn:active {
   background: rgba(245, 166, 35, 0.2);
+  transform: scale(1.05);
 }
 
-.cipher-letter-btn.used {
-  opacity: 0.3;
-  cursor: not-allowed;
+.unscramble-tile.locked {
+  cursor: default;
 }
 
 .cipher-tools {
@@ -829,51 +724,21 @@ h1, h2, h3 {
   justify-content: center;
 }
 
-.frequency-panel {
-  display: none;
-  width: 100%;
-  max-width: 500px;
-  padding: 0.75rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  margin-top: 0.5rem;
-}
-
-.frequency-panel.active {
-  display: block;
-}
-
-.freq-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.35rem;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-}
-
-.freq-symbol {
-  color: var(--amber);
-  width: 1.5em;
-  text-align: center;
-}
-
-.freq-bar {
-  height: 12px;
-  background: var(--green);
-  border-radius: 2px;
-  transition: width 400ms ease;
-}
-
-.freq-count {
-  color: var(--white);
-  font-size: 0.8rem;
-  min-width: 1.5em;
-  font-weight: 700;
-}
-
 /* --- Laser Stage --- */
+.stage-laser-layout {
+  overflow: hidden !important;
+  justify-content: space-between;
+}
+
+.laser-top-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  min-height: 0;
+}
+
 .laser-stats {
   display: flex;
   align-items: center;
@@ -883,8 +748,10 @@ h1, h2, h3 {
 
 .laser-grid-wrapper {
   width: 100%;
-  max-width: 400px;
+  max-width: min(55dvh, 400px);
   margin: 0 auto;
+  flex-shrink: 1;
+  min-height: 0;
 }
 
 .laser-grid {
@@ -979,8 +846,11 @@ h1, h2, h3 {
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
-  margin-top: 0.75rem;
-  padding-bottom: 0.5rem;
+  padding: 0.5rem 0;
+  padding-bottom: calc(var(--safe-bottom) + 0.5rem);
+  flex-shrink: 0;
+  background: var(--bg-dark);
+  width: 100%;
 }
 
 .dpad-middle-row {
