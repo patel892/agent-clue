@@ -25,6 +25,7 @@
 
   <!-- Stage transition interstitial -->
   <div id="interstitial" class="interstitial" aria-live="polite">
+    <p class="interstitial-story" id="interstitial-story"></p>
     <span class="interstitial-text">LOADING NEXT PROTOCOL...</span>
   </div>
 
@@ -221,11 +222,13 @@
         <p class="secret-title">ADMIN ACCESS</p>
         <p class="secret-subtitle">Authorization required</p>
         <input
-          type="password"
+          type="text"
           id="secret-password"
           class="secret-input"
           placeholder="Enter password"
           autocomplete="off"
+          autocapitalize="off"
+          autocorrect="off"
           spellcheck="false"
         >
         <button class="btn btn-primary" id="secret-submit">AUTHENTICATE</button>

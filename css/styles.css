@@ -11,14 +11,14 @@
 }
 
 :root {
-  --bg-dark: #0a0a0f;
-  --bg-card: #14141f;
-  --amber: #f5a623;
-  --green: #00ff88;
-  --red: #e63946;
-  --white: #f0f0f0;
-  --white-dim: #c8c8d8;
-  --border: #2a2a3a;
+  --bg-dark: #121225;
+  --bg-card: #1c1c35;
+  --amber: #ffb833;
+  --green: #33ffaa;
+  --red: #ff4d5a;
+  --white: #f5f5f7;
+  --white-dim: #d0d0e0;
+  --border: #363650;
 
   --font-mono: 'Courier New', 'Consolas', monospace;
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -255,11 +255,15 @@ h1, h2, h3 {
   inset: 0;
   z-index: 800;
   display: none;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: var(--bg-dark);
   opacity: 0;
   transition: opacity 300ms ease;
+  padding: 2rem;
+  text-align: center;
+  gap: 1.25rem;
 }
 
 .interstitial.active {
@@ -273,6 +277,27 @@ h1, h2, h3 {
   color: var(--green);
   letter-spacing: 0.15em;
   animation: blink-text 1s steps(2) infinite;
+}
+
+.interstitial-story {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
+  color: var(--white);
+  line-height: 1.6;
+  max-width: 420px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+
+.interstitial-story.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.interstitial-story .story-highlight {
+  color: var(--amber);
+  font-weight: 700;
 }
 
 @keyframes blink-text {

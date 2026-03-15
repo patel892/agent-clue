@@ -150,6 +150,15 @@ function showStage(index, animate = true) {
   }
 }
 
+const STAGE_INTROS = {
+  1: 'Our analysts have flagged suspicious activity in the evidence vault. <span class="story-highlight">Match the classified files</span> to unlock the first layer of intel on the new recruit.',
+  2: 'Good work, Agent. We intercepted a coded transmission — a single word that reveals the recruit\'s relationship to The Squad. <span class="story-highlight">Unscramble it.</span>',
+  3: 'Intel confirmed — the recruit is a <span class="story-highlight">cousin</span>. Now retrieve the supply kit and deliver it through the laser grid to the new arrival.',
+  4: 'Almost there, Agent. The recruit\'s <span class="story-highlight">arrival date</span> is locked in the vault. Use what you\'ve learned to crack the code.'
+};
+
+const interstitialStory = document.getElementById('interstitial-story');
+
 function goToStage(targetIndex) {
   const currentSection = document.getElementById(STAGE_IDS[GameState.currentStage]);
 
@@ -162,7 +171,8 @@ function goToStage(targetIndex) {
     currentSection.classList.add('fade-out');
   }
 
-  const showInterstitial = GameState.currentStage > 0 && targetIndex < 5;
+  const hasStory = !!STAGE_INTROS[targetIndex] && targetIndex < 5;
+  const showInterstitial = hasStory || (GameState.currentStage > 0 && targetIndex < 5);
 
   const afterFadeOut = () => {
     if (currentSection) {
@@ -170,11 +180,26 @@ function goToStage(targetIndex) {
     }
 
     if (showInterstitial) {
+      if (hasStory) {
+        interstitialStory.innerHTML = STAGE_INTROS[targetIndex];
+        interstitialStory.style.display = '';
+      } else {
+        interstitialStory.style.display = 'none';
+      }
+      interstitialStory.classList.remove('visible');
+
       interstitial.classList.add('active');
+
+      setTimeout(() => {
+        interstitialStory.classList.add('visible');
+      }, 100);
+
+      const storyDuration = hasStory ? 3200 : 1000;
       setTimeout(() => {
         interstitial.classList.remove('active');
+        interstitialStory.classList.remove('visible');
         activateStage(targetIndex);
-      }, 1000);
+      }, storyDuration);
     } else {
       activateStage(targetIndex);
     }
@@ -372,14 +397,7 @@ const secretPassword = document.getElementById('secret-password');
 const secretSubmit   = document.getElementById('secret-submit');
 const secretError    = document.getElementById('secret-error');
 
-function simpleHash(str) {
-  let h = 0;
-  for (let i = 0; i < str.length; i++) {
-    h = ((h << 5) - h + str.charCodeAt(i)) | 0;
-  }
-  return h;
-}
-const PASS_HASH = -909711554;
+const ENCODED_PASS = encodeFragment('salina');
 let secretUnlocked = false;
 
 secretTrigger.addEventListener('click', () => {
@@ -406,7 +424,7 @@ secretModal.addEventListener('click', (e) => {
 
 function trySecretAuth() {
   const val = secretPassword.value.trim().toLowerCase();
-  if (simpleHash(val) === PASS_HASH) {
+  if (val === decodeFragment(ENCODED_PASS)) {
     secretUnlocked = true;
     secretAuth.style.display = 'none';
     secretNav.classList.add('active');
