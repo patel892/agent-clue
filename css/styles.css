@@ -1318,6 +1318,147 @@ h1, h2, h3 {
   }
 }
 
+/* --- Secret Skip Menu --- */
+.secret-trigger {
+  position: fixed;
+  bottom: calc(var(--safe-bottom) + 8px);
+  right: 8px;
+  z-index: 900;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  font-size: 14px;
+  cursor: pointer;
+  opacity: 0.25;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 200ms;
+  padding: 0;
+  line-height: 1;
+}
+
+.secret-trigger:active {
+  opacity: 0.6;
+}
+
+.secret-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 1rem;
+}
+
+.secret-modal.active {
+  display: flex;
+}
+
+.secret-modal-content {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 320px;
+  position: relative;
+}
+
+.secret-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--white-dim);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+  touch-action: manipulation;
+}
+
+.secret-title {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+  text-align: center;
+}
+
+.secret-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--white-dim);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.secret-auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.secret-input {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--bg-dark);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+}
+
+.secret-input:focus {
+  border-color: var(--amber);
+}
+
+.secret-error {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--red);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  display: none;
+}
+
+.secret-error.visible {
+  display: block;
+  animation: shake-slot 400ms ease;
+}
+
+.secret-nav {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.secret-nav.active {
+  display: flex;
+}
+
+.secret-nav-btn {
+  width: 100%;
+  text-align: center;
+  padding: 0.75rem;
+}
+
+.secret-nav-btn[data-target="5"] {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
 /* --- Reduced Motion --- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

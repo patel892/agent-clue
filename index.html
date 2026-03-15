@@ -207,6 +207,39 @@
     <div class="celebration-overlay" id="celebration-overlay"></div>
   </section>
 
+  <!-- Secret skip menu trigger -->
+  <button id="secret-trigger" class="secret-trigger" aria-label="Admin access">🔑</button>
+
+  <!-- Secret skip modal -->
+  <div id="secret-modal" class="secret-modal">
+    <div class="secret-modal-content">
+      <button class="secret-close" id="secret-close" aria-label="Close">✕</button>
+      <div id="secret-auth" class="secret-auth">
+        <p class="secret-title">ADMIN ACCESS</p>
+        <p class="secret-subtitle">Authorization required</p>
+        <input
+          type="password"
+          id="secret-password"
+          class="secret-input"
+          placeholder="Enter password"
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button class="btn btn-primary" id="secret-submit">AUTHENTICATE</button>
+        <p class="secret-error" id="secret-error">ACCESS DENIED</p>
+      </div>
+      <div id="secret-nav" class="secret-nav">
+        <p class="secret-title">LEVEL SELECT</p>
+        <button class="btn btn-secondary secret-nav-btn" data-target="0">Briefing</button>
+        <button class="btn btn-secondary secret-nav-btn" data-target="1">Mission 1: Memory</button>
+        <button class="btn btn-secondary secret-nav-btn" data-target="2">Mission 2: Decoder</button>
+        <button class="btn btn-secondary secret-nav-btn" data-target="3">Mission 3: Laser</button>
+        <button class="btn btn-secondary secret-nav-btn" data-target="4">Mission 4: Vault</button>
+        <button class="btn btn-secondary secret-nav-btn" data-target="5">Final Reveal</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Debug panel (only visible when DEBUG_MODE = true) -->
   <div id="debug-panel" class="debug-panel">
     <select id="debug-stage-select">

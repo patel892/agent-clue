@@ -382,5 +382,88 @@ if (shareBtn) {
   });
 }
 
+// ---- Secret Skip Menu ----
+
+const secretTrigger  = document.getElementById('secret-trigger');
+const secretModal    = document.getElementById('secret-modal');
+const secretClose    = document.getElementById('secret-close');
+const secretAuth     = document.getElementById('secret-auth');
+const secretNav      = document.getElementById('secret-nav');
+const secretPassword = document.getElementById('secret-password');
+const secretSubmit   = document.getElementById('secret-submit');
+const secretError    = document.getElementById('secret-error');
+
+// Simple hash so password isn't plaintext in source
+function simpleHash(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = ((h << 5) - h + str.charCodeAt(i)) | 0;
+  }
+  return h;
+}
+const PASS_HASH = -909711554;
+let secretUnlocked = false;
+
+secretTrigger.addEventListener('click', () => {
+  secretModal.classList.add('active');
+  if (secretUnlocked) {
+    secretAuth.style.display = 'none';
+    secretNav.classList.add('active');
+  } else {
+    secretAuth.style.display = 'flex';
+    secretNav.classList.remove('active');
+    secretPassword.value = '';
+    secretError.classList.remove('visible');
+    setTimeout(() => secretPassword.focus(), 100);
+  }
+});
+
+secretClose.addEventListener('click', () => {
+  secretModal.classList.remove('active');
+});
+
+secretModal.addEventListener('click', (e) => {
+  if (e.target === secretModal) secretModal.classList.remove('active');
+});
+
+function trySecretAuth() {
+  const val = secretPassword.value.trim().toLowerCase();
+  if (simpleHash(val) === PASS_HASH) {
+    secretUnlocked = true;
+    secretAuth.style.display = 'none';
+    secretNav.classList.add('active');
+  } else {
+    secretError.classList.remove('visible');
+    void secretError.offsetHeight;
+    secretError.classList.add('visible');
+  }
+}
+
+secretSubmit.addEventListener('click', trySecretAuth);
+secretPassword.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') trySecretAuth();
+});
+
+document.querySelectorAll('.secret-nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = parseInt(btn.dataset.target, 10);
+    secretModal.classList.remove('active');
+
+    if (!GameState.agentName) GameState.agentName = 'AGENT';
+    if (target >= 1) GameState.stageData.memory.completed = true;
+    if (target >= 2) {
+      GameState.stageData.cipher.completed = true;
+      GameState.stageData.cipher.wordCount = 5;
+    }
+    if (target >= 3) {
+      GameState.stageData.laser.completed = true;
+      GameState.stageData.laser.gridSize = getGridSize();
+    }
+    if (target >= 4) GameState.stageData.vault.completed = true;
+
+    goToStage(target);
+  });
+});
+
 // ---- Boot ----
 document.addEventListener('DOMContentLoaded', init);
