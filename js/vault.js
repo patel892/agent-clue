@@ -19,8 +19,8 @@ const VaultGame = (() => {
     },
     {
       label: 'Clue 2',
-      text: 'How many words were in the secret message you decoded?',
-      clarification: '(Count the words: NEW BABY ON THE WAY = 5)'
+      text: 'How many letters were in the word you decoded?',
+      clarification: '(Count the letters: C-O-U-S-I-N = 6)'
     },
     {
       label: 'Clue 3',
@@ -135,7 +135,7 @@ const VaultGame = (() => {
   function getCorrectCode() {
     return [
       8,
-      5,
+      6,
       GameState.stageData.laser.gridSize || 6
     ];
   }
@@ -189,8 +189,8 @@ const VaultGame = (() => {
         `Total cards: <span class="log-value">16</span>`
       ]},
       { label: 'Mission 2 — Word Decoder', items: [
-        `Decoded message: <span class="log-value">${GameState.stageData.cipher.completed ? 'NEW BABY ON THE WAY' : '???'}</span>`,
-        `Words in message: <span class="log-value">${GameState.stageData.cipher.completed ? '5' : '???'}</span>`
+        `Decoded word: <span class="log-value">${GameState.stageData.cipher.completed ? 'COUSIN' : '???'}</span>`,
+        `Letters in word: <span class="log-value">${GameState.stageData.cipher.completed ? '6' : '???'}</span>`
       ]},
       { label: 'Mission 3 — Laser Grid', items: [
         `Grid size: <span class="log-value">${GameState.stageData.laser.gridSize}×${GameState.stageData.laser.gridSize}</span>`,

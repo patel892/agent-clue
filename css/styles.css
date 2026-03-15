@@ -886,6 +886,37 @@ h1, h2, h3 {
   border-color: var(--amber);
 }
 
+/* Laser item status & message */
+.laser-item-status {
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: 0.05em;
+}
+
+.laser-item-status.collected {
+  color: var(--green);
+}
+
+.laser-cell.item {
+  background: rgba(245, 166, 35, 0.15);
+}
+
+.laser-message {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+  font-weight: 700;
+  color: var(--amber);
+  text-align: center;
+  min-height: 1.5em;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.laser-message.active {
+  opacity: 1;
+}
+
 /* --- Vault Stage --- */
 .vault-container {
   width: 100%;

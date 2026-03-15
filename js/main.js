@@ -9,7 +9,6 @@ const CONFIG = {
 };
 
 // Fragments are stored encoded so the secret is never plaintext in source.
-// Each fragment is XOR-masked with a key and stored as char codes.
 const FRAGMENT_KEY = 42;
 function encodeFragment(str) {
   return Array.from(str).map(c => c.charCodeAt(0) ^ FRAGMENT_KEY);
@@ -20,15 +19,15 @@ function decodeFragment(codes) {
 
 // Pre-encoded fragments (decoded at runtime during reveal)
 const ENCODED_FRAGMENTS = {
-  memory:  encodeFragment('A'),
-  cipher:  encodeFragment('NEW'),
+  memory:  encodeFragment('NEW RECRUIT'),
+  cipher:  encodeFragment('COUSIN'),
   laser:   encodeFragment('BABY'),
-  vault:   encodeFragment('COUSIN')
+  vault:   encodeFragment('OCTOBER 20')
 };
 
 // Reveal message also encoded
-const ENCODED_REVEAL_LINE1 = encodeFragment('A NEW BABY IS ON THE WAY!');
-const ENCODED_REVEAL_LINE2 = encodeFragment("YOU'RE GETTING A COUSIN!");
+const ENCODED_REVEAL_LINE1 = encodeFragment('A NEW AGENT IS JOINING THE SQUAD!');
+const ENCODED_REVEAL_LINE2 = encodeFragment('YOUR BABY COUSIN ARRIVES OCTOBER 20TH!');
 
 const GameState = {
   agentName: '',
@@ -87,7 +86,6 @@ function init() {
     debugGoBtn.addEventListener('click', () => {
       const target = parseInt(debugSelect.value, 10);
       GameState.agentName = GameState.agentName || 'DEBUG';
-      // Fill placeholder data for skipped stages
       if (target >= 1) GameState.stageData.memory.completed = true;
       if (target >= 2) GameState.stageData.cipher.completed = true;
       if (target >= 3) {
@@ -155,18 +153,15 @@ function showStage(index, animate = true) {
 function goToStage(targetIndex) {
   const currentSection = document.getElementById(STAGE_IDS[GameState.currentStage]);
 
-  // Destroy current stage module
   const currentModule = STAGE_MODULES[GameState.currentStage];
   if (currentModule && currentModule.destroy) {
     currentModule.destroy();
   }
 
-  // Fade out current
   if (currentSection) {
     currentSection.classList.add('fade-out');
   }
 
-  // Show interstitial (skip for briefing→stage1 and vault→reveal)
   const showInterstitial = GameState.currentStage > 0 && targetIndex < 5;
 
   const afterFadeOut = () => {
@@ -191,13 +186,11 @@ function goToStage(targetIndex) {
 function activateStage(index) {
   showStage(index);
 
-  // Initialize stage module
   const mod = STAGE_MODULES[index];
   if (mod && mod.init) {
     mod.init();
   }
 
-  // Handle reveal stage
   if (index === 5) {
     runReveal();
   }
@@ -209,7 +202,6 @@ function updateProgressBar(completedStages) {
   progressLevel.textContent = `LEVEL ${completedStages} / 5`;
 }
 
-// Called by stage modules when they complete
 function completeStage(stageName) {
   const fragmentCodes = ENCODED_FRAGMENTS[stageName];
   if (fragmentCodes) {
@@ -239,7 +231,6 @@ function getGridSize() {
 // ---- Reveal (Stage 5) ----
 
 function runReveal() {
-  // Reset visibility
   decryptProgress.style.display = 'flex';
   fragmentAssembly.innerHTML = '';
   fullMessageEl.textContent = '';
@@ -249,7 +240,6 @@ function runReveal() {
   celebrationOverlay.classList.remove('active');
   decryptBarFill.style.width = '0%';
 
-  // Phase 1: Fake decrypt progress bar (~3 seconds)
   let progress = 0;
   const decryptInterval = setInterval(() => {
     progress += 2;
@@ -265,7 +255,6 @@ function runReveal() {
 function showFragments() {
   const fragmentWords = GameState.fragments.map(f => decodeFragment(f));
 
-  // If we have no fragments (debug mode), use defaults
   if (fragmentWords.length === 0) {
     fragmentWords.push(
       decodeFragment(ENCODED_FRAGMENTS.memory),
@@ -275,7 +264,6 @@ function showFragments() {
     );
   }
 
-  // Create word elements
   fragmentWords.forEach(word => {
     const el = document.createElement('span');
     el.className = 'assembly-word';
@@ -283,16 +271,14 @@ function showFragments() {
     fragmentAssembly.appendChild(el);
   });
 
-  // Reveal one by one with delays
   const wordEls = fragmentAssembly.querySelectorAll('.assembly-word');
   wordEls.forEach((el, i) => {
     setTimeout(() => {
       el.classList.add('visible');
-    }, 600 * (i + 1));
+    }, 800 * (i + 1));
   });
 
-  // After all fragments, show full message
-  const totalDelay = 600 * (wordEls.length + 1) + 800;
+  const totalDelay = 800 * (wordEls.length + 1) + 1000;
   setTimeout(() => {
     fragmentAssembly.style.display = 'none';
     showFullMessage();
@@ -302,13 +288,12 @@ function showFragments() {
 function showFullMessage() {
   const line1 = decodeFragment(ENCODED_REVEAL_LINE1);
   const line2 = decodeFragment(ENCODED_REVEAL_LINE2);
-  fullMessageEl.innerHTML = line1 + '<br>' + line2;
+  fullMessageEl.innerHTML = line1 + '<br><br>' + line2;
 
   requestAnimationFrame(() => {
     fullMessageEl.classList.add('visible');
   });
 
-  // Confetti
   setTimeout(() => {
     if (typeof ConfettiEffect !== 'undefined' && ConfettiEffect.init) {
       ConfettiEffect.init();
@@ -316,13 +301,11 @@ function showFullMessage() {
     celebrationOverlay.classList.add('active');
   }, 600);
 
-  // Personal note
   setTimeout(() => {
     personalNoteEl.textContent = CONFIG.PERSONAL_MESSAGE;
     personalNoteEl.classList.add('visible');
   }, 1500);
 
-  // Action buttons
   setTimeout(() => {
     revealActions.classList.add('visible');
   }, 2000);
@@ -343,7 +326,6 @@ function resetGame() {
     ConfettiEffect.destroy();
   }
 
-  // Reset briefing
   codenameInput.value = '';
   acceptBtn.disabled = true;
   manilaFolder.classList.remove('closing');
@@ -354,7 +336,6 @@ function resetGame() {
   void manilaFolder.offsetHeight;
   manilaFolder.style.animation = '';
 
-  // Reset reveal
   celebrationOverlay.classList.remove('active');
   fullMessageEl.classList.remove('visible');
   personalNoteEl.classList.remove('visible');
@@ -365,12 +346,10 @@ function resetGame() {
   showStage(0, false);
 }
 
-// Replay button
 if (replayBtn) {
   replayBtn.addEventListener('click', resetGame);
 }
 
-// Share button
 if (shareBtn) {
   shareBtn.addEventListener('click', () => {
     if (navigator.clipboard) {
@@ -393,7 +372,6 @@ const secretPassword = document.getElementById('secret-password');
 const secretSubmit   = document.getElementById('secret-submit');
 const secretError    = document.getElementById('secret-error');
 
-// Simple hash so password isn't plaintext in source
 function simpleHash(str) {
   let h = 0;
   for (let i = 0; i < str.length; i++) {
@@ -453,7 +431,7 @@ document.querySelectorAll('.secret-nav-btn').forEach(btn => {
     if (target >= 1) GameState.stageData.memory.completed = true;
     if (target >= 2) {
       GameState.stageData.cipher.completed = true;
-      GameState.stageData.cipher.wordCount = 5;
+      GameState.stageData.cipher.letterCount = 6;
     }
     if (target >= 3) {
       GameState.stageData.laser.completed = true;

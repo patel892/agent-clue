@@ -14,7 +14,7 @@
   <!-- Scan-line overlay -->
   <div class="scanlines" aria-hidden="true"></div>
 
-  <!-- Progress bar — hidden during briefing, visible during stages 1–5 -->
+  <!-- Progress bar -->
   <div id="progress-bar" class="progress-bar" aria-label="Mission progress">
     <span class="progress-label">CLEARANCE:</span>
     <div class="progress-track">
@@ -39,9 +39,10 @@
           <div class="briefing-content" id="briefing-content">
             <p class="briefing-header">MISSION DOSSIER</p>
             <p class="briefing-text">
-              Agent, we've intercepted a top-secret transmission. The intel is
-              locked behind a series of security protocols. Your mission: crack
-              each layer to decode the message.
+              Agent, our intel division has detected a new recruit being added
+              to The Squad. Their identity is classified behind multiple security
+              protocols. Your mission: crack each layer to uncover who this
+              mystery agent is and when they arrive.
             </p>
             <p class="briefing-question">Do you accept?</p>
 
@@ -72,7 +73,7 @@
   <section id="stage-memory" class="stage" data-stage="1">
     <div class="stage-header">
       <h2 class="stage-title">MISSION 1: MEMORY MATRIX</h2>
-      <p class="stage-subtitle">Match the classified evidence pairs to unlock the first security layer.</p>
+      <p class="stage-subtitle">Match the classified evidence pairs to begin uncovering the new recruit's file.</p>
     </div>
     <div class="memory-stats">
       <span class="stat-label">ATTEMPTS: <span id="memory-moves">0</span></span>
@@ -96,9 +97,9 @@
   <section id="stage-cipher" class="stage" data-stage="2">
     <div class="stage-header">
       <h2 class="stage-title">MISSION 2: WORD DECODER</h2>
-      <p class="stage-subtitle">The intercepted message is scrambled. Unscramble each word to decode it.</p>
+      <p class="stage-subtitle">We intercepted the new recruit's classification. Unscramble it.</p>
     </div>
-    <p class="cipher-instruction">Tap two letters in a word to swap them. Unscramble all 5 words.</p>
+    <p class="cipher-instruction">Tap two letters to swap them. Unscramble the word.</p>
     <div class="unscramble-words" id="unscramble-words"></div>
     <div class="cipher-tools">
       <button class="btn btn-secondary" id="cipher-hint-btn">HINT <span id="cipher-hint-count">(3)</span></button>
@@ -118,15 +119,17 @@
     <div class="laser-top-area">
       <div class="stage-header">
         <h2 class="stage-title">MISSION 3: LASER GRID</h2>
-        <p class="stage-subtitle">Navigate to 🔓. Avoid active lasers.</p>
+        <p class="stage-subtitle">Grab the supply kit 🍼 and deliver it to the new recruit 👶.</p>
       </div>
       <div class="laser-stats">
         <span class="stat-label">STRIKES: <span id="laser-strikes">0</span></span>
+        <span class="stat-label laser-item-status" id="laser-item-status">🍼 NOT COLLECTED</span>
         <button class="btn btn-secondary btn-small" id="laser-scan-btn">SCAN <span id="laser-scan-count">(2)</span></button>
       </div>
       <div class="laser-grid-wrapper">
         <div class="laser-grid" id="laser-grid" role="grid" aria-label="Laser navigation grid"></div>
       </div>
+      <div class="laser-message" id="laser-message" aria-live="polite"></div>
     </div>
     <div class="detected-flash" id="detected-flash" aria-live="assertive">DETECTED!</div>
     <div class="dpad" id="dpad" aria-label="Movement controls">
@@ -140,7 +143,7 @@
     </div>
     <div class="stage-complete-overlay" id="laser-complete">
       <div class="complete-content">
-        <p class="complete-title">SECURITY BYPASSED</p>
+        <p class="complete-title">SUPPLY DELIVERED</p>
         <p class="complete-fragment">INTEL FRAGMENT RECOVERED:</p>
         <p class="fragment-word" id="laser-fragment"></p>
         <button class="btn btn-primary continue-btn" id="laser-continue-btn">PROCEED TO NEXT PROTOCOL</button>
@@ -152,7 +155,7 @@
   <section id="stage-vault" class="stage" data-stage="4">
     <div class="stage-header">
       <h2 class="stage-title">MISSION 4: THE VAULT</h2>
-      <p class="stage-subtitle">Enter the 3-digit code to crack the vault.</p>
+      <p class="stage-subtitle">Enter the 3-digit code to unlock the recruit's arrival date.</p>
     </div>
     <div class="vault-container">
       <div class="vault-door" id="vault-door">
@@ -179,9 +182,9 @@
     <div class="stage-complete-overlay" id="vault-complete">
       <div class="complete-content">
         <p class="complete-title">VAULT CRACKED</p>
-        <p class="complete-fragment">FINAL INTEL FRAGMENT RECOVERED:</p>
+        <p class="complete-fragment">ARRIVAL DATE RECOVERED:</p>
         <p class="fragment-word" id="vault-fragment"></p>
-        <button class="btn btn-primary continue-btn" id="vault-continue-btn">DECRYPT TRANSMISSION</button>
+        <button class="btn btn-primary continue-btn" id="vault-continue-btn">DECRYPT FULL TRANSMISSION</button>
       </div>
     </div>
   </section>

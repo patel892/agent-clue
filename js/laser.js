@@ -1,5 +1,5 @@
 /* ================================================================
-   Stage 3 — Laser Grid (Path Puzzle)
+   Stage 3 — Laser Grid (Path Puzzle with Bottle Pickup)
    ================================================================ */
 
 const LaserGame = (() => {
@@ -7,13 +7,15 @@ const LaserGame = (() => {
   let grid = [];
   let playerPos = { row: 0, col: 0 };
   let goalPos = {};
+  let bottlePos = {};
+  let hasBottle = false;
   let strikes = 0;
   let scansLeft = 2;
   let scanning = false;
   let intervals = [];
   let completed = false;
 
-  let gridEl, strikesEl, scanBtn, scanCountEl, detectedFlash;
+  let gridEl, strikesEl, scanBtn, scanCountEl, detectedFlash, itemStatusEl, laserMessageEl;
   let completeOverlay, fragmentEl, continueBtn;
 
   const LASER_CONFIGS = {
@@ -38,12 +40,19 @@ const LaserGame = (() => {
     ]
   };
 
+  const BOTTLE_POS = {
+    6: { row: 2, col: 1 },
+    8: { row: 3, col: 2 }
+  };
+
   function init() {
     gridEl          = document.getElementById('laser-grid');
     strikesEl       = document.getElementById('laser-strikes');
     scanBtn         = document.getElementById('laser-scan-btn');
     scanCountEl     = document.getElementById('laser-scan-count');
     detectedFlash   = document.getElementById('detected-flash');
+    itemStatusEl    = document.getElementById('laser-item-status');
+    laserMessageEl  = document.getElementById('laser-message');
     completeOverlay = document.getElementById('laser-complete');
     fragmentEl      = document.getElementById('laser-fragment');
     continueBtn     = document.getElementById('laser-continue-btn');
@@ -54,17 +63,21 @@ const LaserGame = (() => {
     scansLeft = 2;
     scanning = false;
     completed = false;
+    hasBottle = false;
 
     strikesEl.textContent = '0';
     scanCountEl.textContent = '(2)';
     scanBtn.disabled = false;
     completeOverlay.classList.remove('active');
     detectedFlash.classList.remove('active');
+    updateItemStatus();
+    laserMessageEl.textContent = '';
 
     gridEl.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
 
     playerPos = { row: 0, col: 0 };
     goalPos = { row: gridSize - 1, col: gridSize - 1 };
+    bottlePos = BOTTLE_POS[gridSize] || BOTTLE_POS[6];
 
     buildGrid();
     renderGrid();
@@ -96,6 +109,25 @@ const LaserGame = (() => {
     gridEl.innerHTML = '';
   }
 
+  function updateItemStatus() {
+    if (hasBottle) {
+      itemStatusEl.textContent = '🍼 COLLECTED ✓';
+      itemStatusEl.classList.add('collected');
+    } else {
+      itemStatusEl.textContent = '🍼 NOT COLLECTED';
+      itemStatusEl.classList.remove('collected');
+    }
+  }
+
+  function showMessage(msg) {
+    laserMessageEl.textContent = msg;
+    laserMessageEl.classList.add('active');
+    setTimeout(() => {
+      laserMessageEl.classList.remove('active');
+      laserMessageEl.textContent = '';
+    }, 1500);
+  }
+
   function buildGrid() {
     grid = [];
     for (let r = 0; r < gridSize; r++) {
@@ -108,7 +140,9 @@ const LaserGame = (() => {
     const config = LASER_CONFIGS[gridSize] || LASER_CONFIGS[6];
     config.forEach(l => {
       if (l.row < gridSize && l.col < gridSize) {
-        if ((l.row === 0 && l.col === 0) || (l.row === goalPos.row && l.col === goalPos.col)) return;
+        if ((l.row === 0 && l.col === 0) ||
+            (l.row === goalPos.row && l.col === goalPos.col) ||
+            (l.row === bottlePos.row && l.col === bottlePos.col)) return;
         grid[l.row][l.col] = {
           laser: { dir: l.dir, cycle: l.cycle },
           active: false
@@ -126,16 +160,23 @@ const LaserGame = (() => {
         cell.dataset.row = r;
         cell.dataset.col = c;
 
-        if (r === playerPos.row && c === playerPos.col) {
+        const isPlayer = (r === playerPos.row && c === playerPos.col);
+
+        if (isPlayer) {
           cell.classList.add('player');
-          cell.textContent = '🕵️';
+          cell.textContent = hasBottle ? '🕵️🍼' : '🕵️';
         }
 
-        if (r === goalPos.row && c === goalPos.col) {
+        // Bottle (only if not yet picked up and player isn't on it)
+        if (!hasBottle && r === bottlePos.row && c === bottlePos.col && !isPlayer) {
+          cell.classList.add('item');
+          cell.textContent = '🍼';
+        }
+
+        // Goal (baby)
+        if (r === goalPos.row && c === goalPos.col && !isPlayer) {
           cell.classList.add('goal');
-          if (!(r === playerPos.row && c === playerPos.col)) {
-            cell.textContent = '🔓';
-          }
+          cell.textContent = '👶';
         }
 
         const cellData = grid[r][c];
@@ -218,10 +259,22 @@ const LaserGame = (() => {
       return;
     }
 
+    // Check bottle pickup
+    if (!hasBottle && newRow === bottlePos.row && newCol === bottlePos.col) {
+      hasBottle = true;
+      updateItemStatus();
+      showMessage('SUPPLY KIT ACQUIRED!');
+    }
+
     renderGrid();
 
+    // Check goal
     if (newRow === goalPos.row && newCol === goalPos.col) {
-      onComplete();
+      if (hasBottle) {
+        onComplete();
+      } else {
+        showMessage('RETRIEVE THE SUPPLY KIT 🍼 FIRST!');
+      }
     }
   }
 
@@ -230,6 +283,8 @@ const LaserGame = (() => {
     strikesEl.textContent = strikes;
     GameState.stageData.laser.attempts = strikes;
 
+    hasBottle = false;
+    updateItemStatus();
     playerPos = { row: 0, col: 0 };
     renderGrid();
 
