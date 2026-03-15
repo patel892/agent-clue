@@ -8,35 +8,35 @@ Tracking checklist for the spy puzzle game. Each phase maps to the development s
 
 Set up the project skeleton: HTML structure, base CSS theme, JS app controller, and file/folder layout.
 
-- [ ] Create folder structure: `css/`, `js/`, `assets/`
-- [ ] Create `index.html` with:
-  - [ ] Viewport meta tag (`width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no`)
-  - [ ] `<section>` shells for all 6 stages (briefing, memory, cipher, laser, vault, reveal), all hidden by default
-  - [ ] Progress bar / clearance meter element (persistent across stages)
-  - [ ] `<script>` tags for all JS modules (main, memory, cipher, laser, vault, confetti)
-  - [ ] Link to `css/styles.css`
-- [ ] Create `css/styles.css` with:
-  - [ ] CSS reset / base styles
-  - [ ] Dark spy theme: color palette (`#0a0a0f`, `#f5a623`, `#00ff88`, `#e63946`, white)
-  - [ ] Typography: monospace for terminal elements, sans-serif for headings
-  - [ ] Scan-line overlay effect (CSS pseudo-element)
-  - [ ] Mobile-first base layout (375px baseline)
-  - [ ] iOS Safari preventions: `overscroll-behavior: none`, `touch-action: manipulation`, `user-select: none`, `-webkit-tap-highlight-color: transparent`, `overflow: hidden` on html/body
-  - [ ] Safe area inset padding (`env(safe-area-inset-*)`)
-  - [ ] Use `dvh` instead of `vh` for full-screen heights
-  - [ ] Stage visibility classes (`.stage-active` / hidden)
-  - [ ] Transition animations for stage changes (opacity fade, 400ms)
-  - [ ] Progress bar styling (security clearance meter)
-  - [ ] `prefers-reduced-motion` media query to disable animations
-- [ ] Create `js/main.js` with:
-  - [ ] `CONFIG` object (personal message, reveal message, enable sound, debug mode)
-  - [ ] `GameState` object (agentName, currentStage, fragments[], stageData)
-  - [ ] Stage transition controller (fade-out → interstitial → fade-in)
-  - [ ] Progress bar update logic
-  - [ ] `DEBUG_MODE` stage-skip capability
-  - [ ] Fragment collection and encoding (secret never in plaintext source)
-- [ ] Create stub files: `js/memory.js`, `js/cipher.js`, `js/laser.js`, `js/vault.js`, `js/confetti.js` — each with `init()` and `destroy()` exports
-- [ ] Create `404.html` (redirect to `index.html` for GitHub Pages SPA fallback)
+- [x] Create folder structure: `css/`, `js/`, `assets/`
+- [x] Create `index.html` with:
+  - [x] Viewport meta tag (`width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no`)
+  - [x] `<section>` shells for all 6 stages (briefing, memory, cipher, laser, vault, reveal), all hidden by default
+  - [x] Progress bar / clearance meter element (persistent across stages)
+  - [x] `<script>` tags for all JS modules (main, memory, cipher, laser, vault, confetti)
+  - [x] Link to `css/styles.css`
+- [x] Create `css/styles.css` with:
+  - [x] CSS reset / base styles
+  - [x] Dark spy theme: color palette (`#0a0a0f`, `#f5a623`, `#00ff88`, `#e63946`, white)
+  - [x] Typography: monospace for terminal elements, sans-serif for headings
+  - [x] Scan-line overlay effect (CSS pseudo-element)
+  - [x] Mobile-first base layout (375px baseline)
+  - [x] iOS Safari preventions: `overscroll-behavior: none`, `touch-action: manipulation`, `user-select: none`, `-webkit-tap-highlight-color: transparent`, `overflow: hidden` on html/body
+  - [x] Safe area inset padding (`env(safe-area-inset-*)`)
+  - [x] Use `dvh` instead of `vh` for full-screen heights
+  - [x] Stage visibility classes (`.stage-active` / hidden)
+  - [x] Transition animations for stage changes (opacity fade, 400ms)
+  - [x] Progress bar styling (security clearance meter)
+  - [x] `prefers-reduced-motion` media query to disable animations
+- [x] Create `js/main.js` with:
+  - [x] `CONFIG` object (personal message, reveal message, enable sound, debug mode)
+  - [x] `GameState` object (agentName, currentStage, fragments[], stageData)
+  - [x] Stage transition controller (fade-out → interstitial → fade-in)
+  - [x] Progress bar update logic
+  - [x] `DEBUG_MODE` stage-skip capability
+  - [x] Fragment collection and encoding (secret never in plaintext source)
+- [x] Create stub files: `js/memory.js`, `js/cipher.js`, `js/laser.js`, `js/vault.js`, `js/confetti.js` — each with `init()` and `destroy()` exports
+- [x] Create `404.html` (redirect to `index.html` for GitHub Pages SPA fallback)
 
 ---
 
@@ -44,22 +44,22 @@ Set up the project skeleton: HTML structure, base CSS theme, JS app controller, 
 
 Landing screen that sets the spy tone and collects the player's codename.
 
-- [ ] HTML: briefing section content
-  - [ ] "CLASSIFIED" stamp element
-  - [ ] Manila folder graphic container
-  - [ ] Mission briefing text
-  - [ ] Codename input field (font-size ≥ 16px to prevent iOS zoom)
-  - [ ] "ACCEPT MISSION" button (min 48×48px tap target)
-- [ ] CSS: briefing screen styling
-  - [ ] "CLASSIFIED" stamp fade-in with thud animation
-  - [ ] Manila folder open/close animation
-  - [ ] Input and button styling (spy theme)
-  - [ ] Responsive layout for all breakpoints
-- [ ] JS: briefing logic in `main.js`
-  - [ ] Store agent name in `GameState.agentName`
-  - [ ] Validate non-empty codename before proceeding
-  - [ ] Trigger folder close animation → transition to Stage 1
-  - [ ] Show progress bar on transition
+- [x] HTML: briefing section content
+  - [x] "CLASSIFIED" stamp element
+  - [x] Manila folder graphic container
+  - [x] Mission briefing text
+  - [x] Codename input field (font-size ≥ 16px to prevent iOS zoom)
+  - [x] "ACCEPT MISSION" button (min 48×48px tap target)
+- [x] CSS: briefing screen styling
+  - [x] "CLASSIFIED" stamp fade-in with thud animation
+  - [x] Manila folder open/close animation
+  - [x] Input and button styling (spy theme)
+  - [x] Responsive layout for all breakpoints
+- [x] JS: briefing logic in `main.js`
+  - [x] Store agent name in `GameState.agentName`
+  - [x] Validate non-empty codename before proceeding
+  - [x] Trigger folder close animation → transition to Stage 1
+  - [x] Show progress bar on transition
 
 ---
 
@@ -67,33 +67,33 @@ Landing screen that sets the spy tone and collects the player's codename.
 
 16-card matching game with mid-game shuffle twist.
 
-- [ ] HTML: memory stage section
-  - [ ] 4×4 card grid container
-  - [ ] Move counter display ("ATTEMPTS: 0")
-  - [ ] Stage completion overlay (ACCESS GRANTED, efficiency rating, fragment reveal)
-- [ ] CSS: memory stage styling
-  - [ ] Card grid: responsive — 4×4 on tablet/desktop, 3-col layout on phones
-  - [ ] Card flip animation (`transform: rotateY(180deg)`, `backface-visibility: hidden`)
-  - [ ] "TOP SECRET" card back design
-  - [ ] Card face styling (emoji + spy label)
-  - [ ] Shuffle animation (slide transitions for repositioned cards)
-  - [ ] "SECURITY ROTATION" warning banner animation
-  - [ ] Min 48×48px card tap targets
-- [ ] JS: `js/memory.js` game logic
-  - [ ] Card data: 8 pairs with emoji + spy names
-  - [ ] Fisher-Yates shuffle
-  - [ ] Card flip mechanic (tap to flip, max 2 face-up at a time)
-  - [ ] Board lock while checking a pair (prevent rapid-tap exploits)
-  - [ ] Match detection: matched pairs stay revealed
-  - [ ] Mismatch: flip back after 800ms
-  - [ ] Move counter increment on each pair attempt
-  - [ ] Mid-game shuffle trigger: after 4 pairs matched, shuffle remaining unmatched card positions with visible slide animation
-  - [ ] Completion detection: all 8 pairs matched
-  - [ ] Efficiency rating calculation (★★★ / ★★ / ★ based on move count)
-  - [ ] Store `moves` and `completed` in `GameState.stageData.memory`
-  - [ ] Add fragment "A" (encoded) to `GameState.fragments`
-  - [ ] Call stage transition to Stage 2
-  - [ ] `init()` and `destroy()` lifecycle methods
+- [x] HTML: memory stage section
+  - [x] 4×4 card grid container
+  - [x] Move counter display ("ATTEMPTS: 0")
+  - [x] Stage completion overlay (ACCESS GRANTED, efficiency rating, fragment reveal)
+- [x] CSS: memory stage styling
+  - [x] Card grid: responsive — 4×4 on tablet/desktop, 3-col layout on phones
+  - [x] Card flip animation (`transform: rotateY(180deg)`, `backface-visibility: hidden`)
+  - [x] "TOP SECRET" card back design
+  - [x] Card face styling (emoji + spy label)
+  - [x] Shuffle animation (slide transitions for repositioned cards)
+  - [x] "SECURITY ROTATION" warning banner animation
+  - [x] Min 48×48px card tap targets
+- [x] JS: `js/memory.js` game logic
+  - [x] Card data: 8 pairs with emoji + spy names
+  - [x] Fisher-Yates shuffle
+  - [x] Card flip mechanic (tap to flip, max 2 face-up at a time)
+  - [x] Board lock while checking a pair (prevent rapid-tap exploits)
+  - [x] Match detection: matched pairs stay revealed
+  - [x] Mismatch: flip back after 800ms
+  - [x] Move counter increment on each pair attempt
+  - [x] Mid-game shuffle trigger: after 4 pairs matched, shuffle remaining unmatched card positions with visible slide animation
+  - [x] Completion detection: all 8 pairs matched
+  - [x] Efficiency rating calculation (★★★ / ★★ / ★ based on move count)
+  - [x] Store `moves` and `completed` in `GameState.stageData.memory`
+  - [x] Add fragment "A" (encoded) to `GameState.fragments`
+  - [x] Call stage transition to Stage 2
+  - [x] `init()` and `destroy()` lifecycle methods
 
 ---
 
@@ -101,38 +101,38 @@ Landing screen that sets the spy tone and collects the player's codename.
 
 Decode "NEW BABY ON THE WAY" from symbol cipher using tap-to-select, tap-to-place.
 
-- [ ] HTML: cipher stage section
-  - [ ] Encoded message display (symbols with spaces preserved)
-  - [ ] Cipher key grid (symbol → blank letter slot for each of 9 unique symbols)
-  - [ ] On-screen alphabet for letter assignment
-  - [ ] "INTEL INTERCEPT" free hint display (★ = N)
-  - [ ] "FREQUENCY ANALYSIS" button
-  - [ ] "HINT" button (limited to 2 uses)
-  - [ ] Frequency analysis display area (bar chart / counts)
-  - [ ] Stage completion overlay (DECRYPTION COMPLETE, fragment reveal)
-- [ ] CSS: cipher stage styling
-  - [ ] Symbol tiles styling (selectable, highlight on select)
-  - [ ] Alphabet grid layout
-  - [ ] Correct assignment: green reveal animation
-  - [ ] Wrong assignment: red flash + bounce-back animation
-  - [ ] Frequency analysis panel styling
-  - [ ] Responsive: single-row scrollable tray on phones, multi-row grid on tablet/desktop
-  - [ ] Min 48×48px tap targets on all tiles
-- [ ] JS: `js/cipher.js` game logic
-  - [ ] 9 unique symbol-to-letter mappings (N, E, W, B, A, Y, O, T, H)
-  - [ ] Render encoded message with symbols
-  - [ ] Tap-to-select, tap-to-place interaction (NO HTML5 Drag and Drop API)
-    - [ ] Tap symbol → highlights as selected
-    - [ ] Tap letter from alphabet → assigns to selected symbol
-  - [ ] Correct/incorrect feedback (green reveal / red flash)
-  - [ ] Free hint pre-populated (★ = N)
-  - [ ] "HINT" button: reveals one correct mapping (max 2 uses)
-  - [ ] "FREQUENCY ANALYSIS" button: shows symbol frequency counts (usable once)
-  - [ ] Completion detection: all 9 mappings correct
-  - [ ] Store `hintsUsed` and `completed` in `GameState.stageData.cipher`
-  - [ ] Add fragment "NEW" (encoded) to `GameState.fragments`
-  - [ ] Call stage transition to Stage 3
-  - [ ] `init()` and `destroy()` lifecycle methods
+- [x] HTML: cipher stage section
+  - [x] Encoded message display (symbols with spaces preserved)
+  - [x] Cipher key grid (symbol → blank letter slot for each of 9 unique symbols)
+  - [x] On-screen alphabet for letter assignment
+  - [x] "INTEL INTERCEPT" free hint display (★ = N)
+  - [x] "FREQUENCY ANALYSIS" button
+  - [x] "HINT" button (limited to 2 uses)
+  - [x] Frequency analysis display area (bar chart / counts)
+  - [x] Stage completion overlay (DECRYPTION COMPLETE, fragment reveal)
+- [x] CSS: cipher stage styling
+  - [x] Symbol tiles styling (selectable, highlight on select)
+  - [x] Alphabet grid layout
+  - [x] Correct assignment: green reveal animation
+  - [x] Wrong assignment: red flash + bounce-back animation
+  - [x] Frequency analysis panel styling
+  - [x] Responsive: single-row scrollable tray on phones, multi-row grid on tablet/desktop
+  - [x] Min 48×48px tap targets on all tiles
+- [x] JS: `js/cipher.js` game logic
+  - [x] 9 unique symbol-to-letter mappings (N, E, W, B, A, Y, O, T, H)
+  - [x] Render encoded message with symbols
+  - [x] Tap-to-select, tap-to-place interaction (NO HTML5 Drag and Drop API)
+    - [x] Tap symbol → highlights as selected
+    - [x] Tap letter from alphabet → assigns to selected symbol
+  - [x] Correct/incorrect feedback (green reveal / red flash)
+  - [x] Free hint pre-populated (★ = N)
+  - [x] "HINT" button: reveals one correct mapping (max 2 uses)
+  - [x] "FREQUENCY ANALYSIS" button: shows symbol frequency counts (usable once)
+  - [x] Completion detection: all 9 mappings correct
+  - [x] Store `hintsUsed` and `completed` in `GameState.stageData.cipher`
+  - [x] Add fragment "NEW" (encoded) to `GameState.fragments`
+  - [x] Call stage transition to Stage 3
+  - [x] `init()` and `destroy()` lifecycle methods
 
 ---
 
@@ -140,37 +140,37 @@ Decode "NEW BABY ON THE WAY" from symbol cipher using tap-to-select, tap-to-plac
 
 Navigate agent through a grid with timed lasers and fog of war.
 
-- [ ] HTML: laser stage section
-  - [ ] Grid container
-  - [ ] On-screen D-pad (up/down/left/right buttons, anchored to bottom)
-  - [ ] Agent icon (🕵️) and goal icon (🔓)
-  - [ ] "DETECTED!" flash overlay
-  - [ ] Strike counter display
-  - [ ] "SCAN" button (2 uses)
-  - [ ] Stage completion overlay (SECURITY BYPASSED, fragment reveal)
-- [ ] CSS: laser stage styling
-  - [ ] CSS Grid layout: 8×8 on tablet/desktop, 6×6 on phones
-  - [ ] Laser beam animations (red glowing lines, horizontal/vertical)
-  - [ ] Two timing cycle visual distinction
-  - [ ] Fog of war: cells outside 2-cell radius dimmed via opacity
-  - [ ] D-pad styling: thumb-friendly, 48×48px min buttons, anchored to bottom
-  - [ ] "DETECTED!" flash animation
-  - [ ] Responsive breakpoints for grid size switch
-- [ ] JS: `js/laser.js` game logic
-  - [ ] Grid state as 2D array
-  - [ ] Responsive grid size detection (6×6 vs 8×8) — store in `GameState.stageData.laser.gridSize`
-  - [ ] Laser placement with solvable path guaranteed
-  - [ ] Two timing cycles: `setInterval` at 1.5s and 2.5s for laser toggling
-  - [ ] Player movement via D-pad (touch events) and arrow keys (keyboard fallback)
-  - [ ] Collision detection: active laser → reset to start, increment strikes
-  - [ ] Fog of war: visibility radius of 2 cells from player position
-  - [ ] "SCAN" button: reveals full grid for 3 seconds (2 uses)
-  - [ ] Goal detection: player reaches 🔓 cell
-  - [ ] Store `attempts`, `completed`, `gridSize` in `GameState.stageData.laser`
-  - [ ] Add fragment "BABY" (encoded) to `GameState.fragments`
-  - [ ] Call stage transition to Stage 4
-  - [ ] `init()` and `destroy()` lifecycle methods
-  - [ ] Clean up intervals on `destroy()`
+- [x] HTML: laser stage section
+  - [x] Grid container
+  - [x] On-screen D-pad (up/down/left/right buttons, anchored to bottom)
+  - [x] Agent icon (🕵️) and goal icon (🔓)
+  - [x] "DETECTED!" flash overlay
+  - [x] Strike counter display
+  - [x] "SCAN" button (2 uses)
+  - [x] Stage completion overlay (SECURITY BYPASSED, fragment reveal)
+- [x] CSS: laser stage styling
+  - [x] CSS Grid layout: 8×8 on tablet/desktop, 6×6 on phones
+  - [x] Laser beam animations (red glowing lines, horizontal/vertical)
+  - [x] Two timing cycle visual distinction
+  - [x] Fog of war: cells outside 2-cell radius dimmed via opacity
+  - [x] D-pad styling: thumb-friendly, 48×48px min buttons, anchored to bottom
+  - [x] "DETECTED!" flash animation
+  - [x] Responsive breakpoints for grid size switch
+- [x] JS: `js/laser.js` game logic
+  - [x] Grid state as 2D array
+  - [x] Responsive grid size detection (6×6 vs 8×8) — store in `GameState.stageData.laser.gridSize`
+  - [x] Laser placement with solvable path guaranteed
+  - [x] Two timing cycles: `setInterval` at 1.5s and 2.5s for laser toggling
+  - [x] Player movement via D-pad (touch events) and arrow keys (keyboard fallback)
+  - [x] Collision detection: active laser → reset to start, increment strikes
+  - [x] Fog of war: visibility radius of 2 cells from player position
+  - [x] "SCAN" button: reveals full grid for 3 seconds (2 uses)
+  - [x] Goal detection: player reaches 🔓 cell
+  - [x] Store `attempts`, `completed`, `gridSize` in `GameState.stageData.laser`
+  - [x] Add fragment "BABY" (encoded) to `GameState.fragments`
+  - [x] Call stage transition to Stage 4
+  - [x] `init()` and `destroy()` lifecycle methods
+  - [x] Clean up intervals on `destroy()`
 
 ---
 
@@ -178,38 +178,38 @@ Navigate agent through a grid with timed lasers and fog of war.
 
 4-digit meta-puzzle lock with clues referencing previous stages.
 
-- [ ] HTML: vault stage section
-  - [ ] Vault door graphic container
-  - [ ] 4-dial combination lock (each dial 0–9)
-  - [ ] Up/down arrows per dial (desktop) + swipe support (mobile)
-  - [ ] "CRACK" submit button
-  - [ ] Classified dossier panel with 4 cryptic clue riddles
-  - [ ] "REVIEW MISSION LOG" button (shows previous stage stats)
-  - [ ] Wrong attempt counter ("ATTEMPT X/∞")
-  - [ ] Stage completion overlay (vault opens, fragment reveal)
-- [ ] CSS: vault stage styling
-  - [ ] Vault door with CSS 3D perspective transform for swing-open
-  - [ ] Dial carousel: vertical number scroll, `overflow: hidden`
-  - [ ] Shake / "bzzt" animation on wrong code
-  - [ ] Dials large enough for thumb interaction, ≥ 12px gap
-  - [ ] Mission log modal/panel styling
-  - [ ] Responsive layout for all breakpoints
-- [ ] JS: `js/vault.js` game logic
-  - [ ] Dial mechanic: swipe up/down (touch events) + click arrows (desktop)
-  - [ ] Dynamic vault code computed from `GameState.stageData`:
-    - [ ] Digit 1: 8 (memory pairs matched)
-    - [ ] Digit 2: 3 (three-letter words in cipher phrase)
-    - [ ] Digit 3: 8 (unique symbols minus free hint)
-    - [ ] Digit 4: `GameState.stageData.laser.gridSize` (8 or 6)
-  - [ ] "CRACK" button: validate combination
-  - [ ] Wrong code: shake animation, reset dials, increment attempt counter
-  - [ ] After 3 wrong attempts: show parenthetical clarifications on clue riddles
-  - [ ] "REVIEW MISSION LOG": display previous stage key stats
-  - [ ] Correct code: vault door swing-open animation
-  - [ ] Store `attempts` and `completed` in `GameState.stageData.vault`
-  - [ ] Add fragment "COUSIN" (encoded) to `GameState.fragments`
-  - [ ] Call stage transition to Stage 5
-  - [ ] `init()` and `destroy()` lifecycle methods
+- [x] HTML: vault stage section
+  - [x] Vault door graphic container
+  - [x] 4-dial combination lock (each dial 0–9)
+  - [x] Up/down arrows per dial (desktop) + swipe support (mobile)
+  - [x] "CRACK" submit button
+  - [x] Classified dossier panel with 4 cryptic clue riddles
+  - [x] "REVIEW MISSION LOG" button (shows previous stage stats)
+  - [x] Wrong attempt counter ("ATTEMPT X/∞")
+  - [x] Stage completion overlay (vault opens, fragment reveal)
+- [x] CSS: vault stage styling
+  - [x] Vault door with CSS 3D perspective transform for swing-open
+  - [x] Dial carousel: vertical number scroll, `overflow: hidden`
+  - [x] Shake / "bzzt" animation on wrong code
+  - [x] Dials large enough for thumb interaction, ≥ 12px gap
+  - [x] Mission log modal/panel styling
+  - [x] Responsive layout for all breakpoints
+- [x] JS: `js/vault.js` game logic
+  - [x] Dial mechanic: swipe up/down (touch events) + click arrows (desktop)
+  - [x] Dynamic vault code computed from `GameState.stageData`:
+    - [x] Digit 1: 8 (memory pairs matched)
+    - [x] Digit 2: 3 (three-letter words in cipher phrase)
+    - [x] Digit 3: 8 (unique symbols minus free hint)
+    - [x] Digit 4: `GameState.stageData.laser.gridSize` (8 or 6)
+  - [x] "CRACK" button: validate combination
+  - [x] Wrong code: shake animation, reset dials, increment attempt counter
+  - [x] After 3 wrong attempts: show parenthetical clarifications on clue riddles
+  - [x] "REVIEW MISSION LOG": display previous stage key stats
+  - [x] Correct code: vault door swing-open animation
+  - [x] Store `attempts` and `completed` in `GameState.stageData.vault`
+  - [x] Add fragment "COUSIN" (encoded) to `GameState.fragments`
+  - [x] Call stage transition to Stage 5
+  - [x] `init()` and `destroy()` lifecycle methods
 
 ---
 
@@ -217,34 +217,34 @@ Navigate agent through a grid with timed lasers and fog of war.
 
 Deliver the secret message with dramatic reveal and confetti celebration.
 
-- [ ] HTML: reveal stage section
-  - [ ] Decrypting progress bar animation container
-  - [ ] Fragment assembly display area
-  - [ ] Full message display
-  - [ ] Confetti canvas element
-  - [ ] Personal note area
-  - [ ] "REPLAY MISSION" button
-  - [ ] "SHARE" button (copies link)
-- [ ] CSS: reveal stage styling
-  - [ ] Fake "DECRYPTING..." progress bar animation (~3s)
-  - [ ] Typewriter text effect
-  - [ ] Background transition: dark spy → celebratory warm gradient (pink/blue/yellow)
-  - [ ] Full-screen overlay for color transition
-  - [ ] Responsive text sizing
-- [ ] JS: reveal logic (in `main.js` or dedicated reveal function)
-  - [ ] Decrypting animation sequence (~3s)
-  - [ ] Fragment assembly: decode and display one by one with typewriter effect ("A" → "NEW" → "BABY" → "COUSIN")
-  - [ ] Assemble full message: "A NEW BABY IS ON THE WAY — YOU'RE GETTING A COUSIN!"
-  - [ ] Trigger confetti
-  - [ ] Show personal message from `CONFIG.PERSONAL_MESSAGE`
-  - [ ] "REPLAY MISSION" button: reset `GameState`, return to Stage 0
-  - [ ] "SHARE" button: copy page URL to clipboard
-- [ ] JS: `js/confetti.js`
-  - [ ] Canvas-based particle system
-  - [ ] 200–300 particles with gravity, rotation, and fade
-  - [ ] `requestAnimationFrame` loop
-  - [ ] Performance cap for low-end devices
-  - [ ] `init()` and `destroy()` lifecycle methods
+- [x] HTML: reveal stage section
+  - [x] Decrypting progress bar animation container
+  - [x] Fragment assembly display area
+  - [x] Full message display
+  - [x] Confetti canvas element
+  - [x] Personal note area
+  - [x] "REPLAY MISSION" button
+  - [x] "SHARE" button (copies link)
+- [x] CSS: reveal stage styling
+  - [x] Fake "DECRYPTING..." progress bar animation (~3s)
+  - [x] Typewriter text effect
+  - [x] Background transition: dark spy → celebratory warm gradient (pink/blue/yellow)
+  - [x] Full-screen overlay for color transition
+  - [x] Responsive text sizing
+- [x] JS: reveal logic (in `main.js` or dedicated reveal function)
+  - [x] Decrypting animation sequence (~3s)
+  - [x] Fragment assembly: decode and display one by one with typewriter effect ("A" → "NEW" → "BABY" → "COUSIN")
+  - [x] Assemble full message: "A NEW BABY IS ON THE WAY — YOU'RE GETTING A COUSIN!"
+  - [x] Trigger confetti
+  - [x] Show personal message from `CONFIG.PERSONAL_MESSAGE`
+  - [x] "REPLAY MISSION" button: reset `GameState`, return to Stage 0
+  - [x] "SHARE" button: copy page URL to clipboard
+- [x] JS: `js/confetti.js`
+  - [x] Canvas-based particle system
+  - [x] 200–300 particles with gravity, rotation, and fade
+  - [x] `requestAnimationFrame` loop
+  - [x] Performance cap for low-end devices
+  - [x] `init()` and `destroy()` lifecycle methods
 
 ---
 
@@ -252,14 +252,14 @@ Deliver the secret message with dramatic reveal and confetti celebration.
 
 Wire all stages together into a seamless flow.
 
-- [ ] Stage transitions: smooth fade-out → "LOADING NEXT PROTOCOL..." interstitial → fade-in
-- [ ] Progress bar updates on each stage completion with fill animation
+- [x] Stage transitions: smooth fade-out → "LOADING NEXT PROTOCOL..." interstitial → fade-in
+- [x] Progress bar updates on each stage completion with fill animation
 - [ ] Agent name displayed throughout ("Good work, Agent [name]!")
-- [ ] Fragment collection verified across all stages
-- [ ] `DEBUG_MODE` stage-skip working (can jump to any stage)
-- [ ] Secret message never appears in plaintext in HTML source
-- [ ] Vault code dynamically derived from `GameState` (not hardcoded)
-- [ ] All `init()` / `destroy()` lifecycle methods called correctly on transitions
+- [x] Fragment collection verified across all stages
+- [x] `DEBUG_MODE` stage-skip working (can jump to any stage)
+- [x] Secret message never appears in plaintext in HTML source
+- [x] Vault code dynamically derived from `GameState` (not hardcoded)
+- [x] All `init()` / `destroy()` lifecycle methods called correctly on transitions
 - [ ] Full playthrough test: Stage 0 → 1 → 2 → 3 → 4 → 5 completes successfully
 
 ---

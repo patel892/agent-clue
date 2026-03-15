@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Mission: Classified</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+  <!-- Scan-line overlay -->
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- Progress bar — hidden during briefing, visible during stages 1–5 -->
+  <div id="progress-bar" class="progress-bar" aria-label="Mission progress">
+    <span class="progress-label">CLEARANCE:</span>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <span class="progress-level" id="progress-level">LEVEL 0 / 5</span>
+  </div>
+
+  <!-- Stage transition interstitial -->
+  <div id="interstitial" class="interstitial" aria-live="polite">
+    <span class="interstitial-text">LOADING NEXT PROTOCOL...</span>
+  </div>
+
+  <!-- ============ STAGE 0 — MISSION BRIEFING ============ -->
+  <section id="stage-briefing" class="stage" data-stage="0">
+    <div class="briefing-container">
+      <div class="classified-stamp" id="classified-stamp">CLASSIFIED</div>
+
+      <div class="manila-folder" id="manila-folder">
+        <div class="folder-tab"></div>
+        <div class="folder-body">
+          <div class="briefing-content" id="briefing-content">
+            <p class="briefing-header">MISSION DOSSIER</p>
+            <p class="briefing-text">
+              Agent, we've intercepted a top-secret transmission. The intel is
+              locked behind a series of security protocols. Your mission: crack
+              each layer to decode the message.
+            </p>
+            <p class="briefing-question">Do you accept?</p>
+
+            <div class="codename-input-group">
+              <label for="codename-input" class="codename-label">ENTER YOUR CODENAME, AGENT</label>
+              <input
+                type="text"
+                id="codename-input"
+                class="codename-input"
+                placeholder="_______________"
+                maxlength="20"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+              >
+            </div>
+
+            <button id="accept-mission-btn" class="btn btn-primary accept-mission-btn" disabled>
+              ACCEPT MISSION
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STAGE 1 — MEMORY MATRIX ============ -->
+  <section id="stage-memory" class="stage" data-stage="1">
+    <div class="stage-header">
+      <h2 class="stage-title">MISSION 1: MEMORY MATRIX</h2>
+      <p class="stage-subtitle">Match the classified evidence pairs to unlock the first security layer.</p>
+    </div>
+    <div class="memory-stats">
+      <span class="stat-label">ATTEMPTS: <span id="memory-moves">0</span></span>
+    </div>
+    <div class="memory-grid" id="memory-grid" role="grid" aria-label="Memory card grid"></div>
+    <div class="shuffle-warning" id="shuffle-warning" aria-live="assertive">
+      ⚠ SECURITY ROTATION ⚠
+    </div>
+    <div class="stage-complete-overlay" id="memory-complete">
+      <div class="complete-content">
+        <p class="complete-title">ACCESS GRANTED</p>
+        <p class="complete-rating" id="memory-rating"></p>
+        <p class="complete-fragment">INTEL FRAGMENT RECOVERED:</p>
+        <p class="fragment-word" id="memory-fragment"></p>
+        <button class="btn btn-primary continue-btn" id="memory-continue-btn">PROCEED TO NEXT PROTOCOL</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STAGE 2 — CODE BREAKER ============ -->
+  <section id="stage-cipher" class="stage" data-stage="2">
+    <div class="stage-header">
+      <h2 class="stage-title">MISSION 2: CODE BREAKER</h2>
+      <p class="stage-subtitle">Decrypt the intercepted transmission using pattern analysis.</p>
+    </div>
+    <div class="cipher-intel">
+      <span class="intel-badge">INTEL INTERCEPT</span>
+      <span class="intel-hint" id="cipher-free-hint"></span>
+    </div>
+    <div class="cipher-message" id="cipher-message" aria-label="Encoded message"></div>
+    <div class="cipher-key-grid" id="cipher-key-grid" aria-label="Cipher key assignments"></div>
+    <div class="cipher-alphabet" id="cipher-alphabet" role="group" aria-label="Letter selection"></div>
+    <div class="cipher-tools">
+      <button class="btn btn-secondary" id="cipher-freq-btn">FREQUENCY ANALYSIS</button>
+      <button class="btn btn-secondary" id="cipher-hint-btn">HINT <span id="cipher-hint-count">(2)</span></button>
+    </div>
+    <div class="frequency-panel" id="frequency-panel"></div>
+    <div class="stage-complete-overlay" id="cipher-complete">
+      <div class="complete-content">
+        <p class="complete-title">DECRYPTION COMPLETE</p>
+        <p class="complete-fragment">INTEL FRAGMENT RECOVERED:</p>
+        <p class="fragment-word" id="cipher-fragment"></p>
+        <button class="btn btn-primary continue-btn" id="cipher-continue-btn">PROCEED TO NEXT PROTOCOL</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STAGE 3 — LASER GRID ============ -->
+  <section id="stage-laser" class="stage" data-stage="3">
+    <div class="stage-header">
+      <h2 class="stage-title">MISSION 3: LASER GRID</h2>
+      <p class="stage-subtitle">Navigate the security grid. Avoid active lasers. Reach the exit.</p>
+    </div>
+    <div class="laser-stats">
+      <span class="stat-label">STRIKES: <span id="laser-strikes">0</span></span>
+      <button class="btn btn-secondary btn-small" id="laser-scan-btn">SCAN <span id="laser-scan-count">(2)</span></button>
+    </div>
+    <div class="laser-grid-wrapper">
+      <div class="laser-grid" id="laser-grid" role="grid" aria-label="Laser navigation grid"></div>
+    </div>
+    <div class="detected-flash" id="detected-flash" aria-live="assertive">DETECTED!</div>
+    <div class="dpad" id="dpad" aria-label="Movement controls">
+      <button class="dpad-btn dpad-up" id="dpad-up" aria-label="Move up">▲</button>
+      <div class="dpad-middle-row">
+        <button class="dpad-btn dpad-left" id="dpad-left" aria-label="Move left">◄</button>
+        <div class="dpad-center"></div>
+        <button class="dpad-btn dpad-right" id="dpad-right" aria-label="Move right">►</button>
+      </div>
+      <button class="dpad-btn dpad-down" id="dpad-down" aria-label="Move down">▼</button>
+    </div>
+    <div class="stage-complete-overlay" id="laser-complete">
+      <div class="complete-content">
+        <p class="complete-title">SECURITY BYPASSED</p>
+        <p class="complete-fragment">INTEL FRAGMENT RECOVERED:</p>
+        <p class="fragment-word" id="laser-fragment"></p>
+        <button class="btn btn-primary continue-btn" id="laser-continue-btn">PROCEED TO NEXT PROTOCOL</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STAGE 4 — THE VAULT ============ -->
+  <section id="stage-vault" class="stage" data-stage="4">
+    <div class="stage-header">
+      <h2 class="stage-title">MISSION 4: THE VAULT</h2>
+      <p class="stage-subtitle">Enter the combination to crack the vault. The clues are in your mission log.</p>
+    </div>
+    <div class="vault-container">
+      <div class="vault-door" id="vault-door">
+        <div class="vault-door-front">
+          <div class="vault-handle"></div>
+          <div class="vault-dials" id="vault-dials"></div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary crack-btn" id="vault-crack-btn">CRACK</button>
+    <div class="vault-attempts" id="vault-attempts"></div>
+    <div class="vault-dossier" id="vault-dossier">
+      <p class="dossier-title">CLASSIFIED DOSSIER</p>
+      <div class="dossier-clues" id="vault-clues"></div>
+      <button class="btn btn-secondary btn-small" id="vault-log-btn">REVIEW MISSION LOG</button>
+    </div>
+    <div class="mission-log-modal" id="mission-log-modal">
+      <div class="modal-content">
+        <p class="modal-title">MISSION LOG</p>
+        <div id="mission-log-content"></div>
+        <button class="btn btn-secondary" id="mission-log-close">CLOSE</button>
+      </div>
+    </div>
+    <div class="stage-complete-overlay" id="vault-complete">
+      <div class="complete-content">
+        <p class="complete-title">VAULT CRACKED</p>
+        <p class="complete-fragment">FINAL INTEL FRAGMENT RECOVERED:</p>
+        <p class="fragment-word" id="vault-fragment"></p>
+        <button class="btn btn-primary continue-btn" id="vault-continue-btn">DECRYPT TRANSMISSION</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STAGE 5 — THE REVEAL ============ -->
+  <section id="stage-reveal" class="stage" data-stage="5">
+    <div class="reveal-container" id="reveal-container">
+      <div class="decrypt-progress" id="decrypt-progress">
+        <p class="decrypt-label">DECRYPTING TRANSMISSION...</p>
+        <div class="decrypt-bar-track">
+          <div class="decrypt-bar-fill" id="decrypt-bar-fill"></div>
+        </div>
+      </div>
+      <div class="fragment-assembly" id="fragment-assembly"></div>
+      <div class="full-message" id="full-message"></div>
+      <div class="personal-note" id="personal-note"></div>
+      <div class="reveal-actions" id="reveal-actions">
+        <button class="btn btn-primary" id="replay-btn">REPLAY MISSION</button>
+        <button class="btn btn-secondary" id="share-btn">SHARE</button>
+      </div>
+    </div>
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+    <div class="celebration-overlay" id="celebration-overlay"></div>
+  </section>
+
+  <!-- Debug panel (only visible when DEBUG_MODE = true) -->
+  <div id="debug-panel" class="debug-panel">
+    <select id="debug-stage-select">
+      <option value="0">Stage 0: Briefing</option>
+      <option value="1">Stage 1: Memory</option>
+      <option value="2">Stage 2: Cipher</option>
+      <option value="3">Stage 3: Laser</option>
+      <option value="4">Stage 4: Vault</option>
+      <option value="5">Stage 5: Reveal</option>
+    </select>
+    <button id="debug-go-btn" class="btn btn-secondary btn-small">GO</button>
+  </div>
+
+  <script src="js/confetti.js"></script>
+  <script src="js/memory.js"></script>
+  <script src="js/cipher.js"></script>
+  <script src="js/laser.js"></script>
+  <script src="js/vault.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
