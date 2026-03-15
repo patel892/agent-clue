@@ -300,6 +300,17 @@ h1, h2, h3 {
   font-weight: 700;
 }
 
+.interstitial-continue {
+  opacity: 0;
+  transition: opacity 600ms ease;
+  pointer-events: none;
+}
+
+.interstitial-continue.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 @keyframes blink-text {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
@@ -398,7 +409,7 @@ h1, h2, h3 {
 
 .briefing-header {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
   color: #3a2f1f;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -409,9 +420,9 @@ h1, h2, h3 {
 
 .briefing-text {
   font-family: var(--font-mono);
-  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
   color: #2a2218;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .briefing-question {
@@ -430,7 +441,7 @@ h1, h2, h3 {
 
 .codename-label {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
   color: #3a3020;
   letter-spacing: 0.15em;
   text-transform: uppercase;

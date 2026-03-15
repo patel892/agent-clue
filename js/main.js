@@ -157,7 +157,21 @@ const STAGE_INTROS = {
   4: 'Almost there, Agent. The recruit\'s <span class="story-highlight">arrival date</span> is locked in the vault. Use what you\'ve learned to crack the code.'
 };
 
-const interstitialStory = document.getElementById('interstitial-story');
+const interstitialStory    = document.getElementById('interstitial-story');
+const interstitialLoading  = document.getElementById('interstitial-loading');
+const interstitialContinue = document.getElementById('interstitial-continue');
+
+let pendingStageIndex = null;
+
+interstitialContinue.addEventListener('click', () => {
+  if (pendingStageIndex === null) return;
+  const idx = pendingStageIndex;
+  pendingStageIndex = null;
+  interstitial.classList.remove('active');
+  interstitialStory.classList.remove('visible');
+  interstitialContinue.classList.remove('visible');
+  activateStage(idx);
+});
 
 function goToStage(targetIndex) {
   const currentSection = document.getElementById(STAGE_IDS[GameState.currentStage]);
@@ -183,23 +197,31 @@ function goToStage(targetIndex) {
       if (hasStory) {
         interstitialStory.innerHTML = STAGE_INTROS[targetIndex];
         interstitialStory.style.display = '';
+        interstitialLoading.style.display = 'none';
+        interstitialContinue.classList.remove('visible');
       } else {
         interstitialStory.style.display = 'none';
+        interstitialLoading.style.display = '';
+        interstitialContinue.classList.remove('visible');
       }
       interstitialStory.classList.remove('visible');
 
       interstitial.classList.add('active');
 
-      setTimeout(() => {
-        interstitialStory.classList.add('visible');
-      }, 100);
-
-      const storyDuration = hasStory ? 3200 : 1000;
-      setTimeout(() => {
-        interstitial.classList.remove('active');
-        interstitialStory.classList.remove('visible');
-        activateStage(targetIndex);
-      }, storyDuration);
+      if (hasStory) {
+        pendingStageIndex = targetIndex;
+        setTimeout(() => {
+          interstitialStory.classList.add('visible');
+        }, 100);
+        setTimeout(() => {
+          interstitialContinue.classList.add('visible');
+        }, 800);
+      } else {
+        setTimeout(() => {
+          interstitial.classList.remove('active');
+          activateStage(targetIndex);
+        }, 1000);
+      }
     } else {
       activateStage(targetIndex);
     }
