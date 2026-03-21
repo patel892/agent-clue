@@ -3,7 +3,7 @@
    ================================================================ */
 
 const CONFIG = {
-  PERSONAL_MESSAGE: "Love, Sunnymasa & Lily",
+  PERSONAL_MESSAGE: "Love, Sunnymama & Linamami",
   ENABLE_SOUND: false,
   DEBUG_MODE: false
 };
