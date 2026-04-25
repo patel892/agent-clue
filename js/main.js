@@ -27,7 +27,7 @@ const ENCODED_FRAGMENTS = {
 
 // Reveal message also encoded
 const ENCODED_REVEAL_LINE1 = encodeFragment('A NEW AGENT IS JOINING THE SQUAD!');
-const ENCODED_REVEAL_LINE2 = encodeFragment('YOUR BABY COUSIN ARRIVES OCTOBER 20TH!');
+const ENCODED_REVEAL_LINE2 = encodeFragment('YOUR BABY COUSIN (Boy) ARRIVES OCTOBER 20TH!');
 
 const GameState = {
   agentName: '',
